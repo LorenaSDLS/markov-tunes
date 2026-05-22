@@ -111,39 +111,53 @@ export default {
   data() {
     return {
       notes: [
-        "C4",
-        "C#4", //1
-        "D4", //2
-        "D#4",
-        "E4", //4
-        "F4",
-        "F#4", //6
-        "G4", //7
-        "G#4",
-        "A4", //9
-        "A#4",
-        "B4", //11
+        "C4",  // 0
+        "C#4", // 1 
+        "D4",  // 2 
+        "D#4", // 3
+        "E4",  // 4
+        "F4",  // 5
+        "F#4", // 6 
+        "G4",  // 7
+        "G#4", // 8
+        "A4",  // 9 -> Quinta
+        "A#4", // 10
+        "B4",  // 11
       ],
-      notesInScaleIndexes: [2, 4, 5, 7, 9, 11, 0],
+
+      // MATRIZ PASTORAL ALEGRE (Re Mayor: D, E, F#, G, A, B, C#)
+      // Diseñada para movimientos melódicos suaves y alegres.
       transitionMatrix: [
-        /*C4*/  [0.25,0,0.25,0,0.15,0.1,0,0.1,0,0.1,0,0.05],
-        /*C#4*/ [0,0,0,0,0,0,0,0,0,0,0,0],
-        /*D4*/  [0.20,0,0.10,0,0.25,0.15,0,0.10,0,0.15,0,0.05],
-        /*D#4*/ [0,0,0,0,0,0,0,0,0,0,0,0],
-        /*E4*/  [0.05,0,0.25,0,0.10,0.25,0,0.15,0,0.15,0,0.05],
-        /*F4*/  [0.10,0,0.20,0,0.15,0.10,0,0.25,0,0.15,0,0.05],
-        /*F#4*/ [0,0,0,0,0,0,0,0,0,0,0,0],
-        /*G4*/  [0.10,0,0.15,0,0.10,0.20,0,0.10,0,0.25,0,0.10],
-        /*G#4*/ [0,0,0,0,0,0,0,0,0,0,0,0],
-        /*A4*/  [0.05,0,0.20,0,0.10,0.15,0,0.25,0,0.10,0,0.15],
-        /*A#4*/ [0,0,0,0,0,0,0,0,0,0,0,0],
-        /*B4*/  [0.05,0,0.15,0,0.20,0.15,0,0.15,0,0.20,0,0.10]
-      ]
+        // C4 -> No se usa (0)
+        [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
+        // C#4 -> Tensión. Va a D4 (0.8) o B4 (0.2)
+        [0.00, 0.00, 0.80, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.20],
+        // D4 (Tónica Feliz) -> Va a sus vecinos E4 (0.3), B4 (0.1), o salta a F#4 (0.3) o A4 (0.3)
+        [0.00, 0.00, 0.00, 0.00, 0.30, 0.00, 0.30, 0.00, 0.00, 0.30, 0.00, 0.10],
+        // D#4 -> No se usa (0)
+        [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
+        // E4 -> Va a D4 (0.4), F#4 (0.4) o G4 (0.2)
+        [0.00, 0.00, 0.40, 0.00, 0.00, 0.00, 0.40, 0.20, 0.00, 0.00, 0.00, 0.00],
+        // F4 -> No se usa (0)
+        [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
+        // F#4 (Tercera Mayor - La clave de la alegría) -> Va mucho a G4 (0.4), E4 (0.3) o D4 (0.3)
+        [0.00, 0.00, 0.30, 0.00, 0.30, 0.00, 0.00, 0.40, 0.00, 0.00, 0.00, 0.00],
+        // G4 -> Va a F#4 (0.5) o A4 (0.5)
+        [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.50, 0.00, 0.00, 0.50, 0.00, 0.00],
+        // G#4 -> No se usa (0)
+        [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
+        // A4 (Quinta) -> Va a G4 (0.3), B4 (0.3) o resuelve a D4 (0.4)
+        [0.00, 0.00, 0.40, 0.00, 0.00, 0.00, 0.00, 0.30, 0.00, 0.00, 0.00, 0.30],
+        // A#4 -> No se usa (0)
+        [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00],
+        // B4 -> Va a A4 (0.5) o C#4 (0.3) o D4 (0.2)
+        [0.00, 0.30, 0.20, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.50, 0.00, 0.00]
+      ],
       melodySynth: new Tone.Synth().toDestination(),
       playing: false,
       loop: null,
       pressed: false,
-      prevIndex: 2,
+      prevIndex: 2, // D4
       currIndex: 2,
       nextIndex: 2,
       currNote: "D4",
@@ -153,40 +167,53 @@ export default {
     async changeState() {
       if (!this.playing) {
         await Tone.start();
-        Tone.Transport.bpm.value = 141;
+        Tone.Transport.bpm.value = 120; // Un tempo de caminata Hobbit
         this.chords();
         Tone.Transport.start();
       } else {
         Tone.Transport.stop();
-        this.loop.dispose();
+        if (this.loop) this.loop.dispose();
       }
       this.playing = !this.playing;
     },
     chords() {
       let chordNum = 0;
+      
+      // Progresión de acordes Mayores y brillantes (Re Mayor)
       const chords = [
-        ["B3", "D3", "F#3"], // Bm (vi)
-        ["G3", "B3", "D3"], // G (iv)
-        ["D3", "F#3", "A3"], // D (i)
-        ["A3", "C#3", "E3"], // A (v)
+        ["D3", "F#3", "A3"], // D (I) - Muy alegre
+        ["G3", "B3", "D4"],  // G (IV)
+        ["A3", "C#4", "E4"], // A (V) -  brillante
+        ["D3", "F#3", "A3"], // D (I)
       ];
+
       const synth = new Tone.PolySynth().toDestination();
-      synth.volume.value = -6;
+      synth.volume.value = -16; // Fondo suave
+
       this.loop = new Tone.Loop(() => {
         synth.triggerAttackRelease(chords[chordNum], "2m");
-        chordNum = (chordNum + 1) % 4;
+        chordNum = (chordNum + 1) % chords.length;
       }, "2m").start(0);
     },
     attack() {
-      this.melodySynth.triggerAttack(this.notes[this.nextIndex]);
+      this.melodySynth.triggerAttack(this.notes[this.currIndex]);
     },
     release() {
       this.melodySynth.triggerRelease();
     },
-    getNextnextIndex() {
-      let rand = Math.random();
-      rand -= 0.16;
-      return rand <= 0 ? 0 : 1 + Math.floor(rand / 0.14);
+
+    calculateNextIndex(currentIndex) {
+      const rowProbabilities = this.transitionMatrix[currentIndex];
+      const rand = Math.random();
+      let cumulative = 0;
+
+      for (let i = 0; i < rowProbabilities.length; i++) {
+        cumulative += rowProbabilities[i];
+        if (rand <= cumulative) {
+          return i;
+        }
+      }
+      return 2; // Respaldo a D4
     },
     getCellColor(i, j) {
       if (i == this.prevIndex && j == this.currIndex) {
@@ -205,11 +232,16 @@ export default {
       if (e.key == " " && !this.pressed) {
         e.preventDefault();
         this.pressed = true;
-        this.currNote = this.notes[this.nextIndex];
-        this.attack();
+        
+        // Desplazamiento correcto de estados de la cadena
         this.prevIndex = this.currIndex;
         this.currIndex = this.nextIndex;
-        this.nextIndex = this.notesInScaleIndexes[this.getNextnextIndex()];
+        this.currNote = this.notes[this.currIndex];
+        
+        this.attack();
+
+        // Al presionar espacio, calculamos matemáticamente cuál será la nota del siguiente toque
+        this.nextIndex = this.calculateNextIndex(this.currIndex);
       }
     });
     window.addEventListener("keyup", (e) => {
